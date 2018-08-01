@@ -1,0 +1,28 @@
+{
+  "p2pPort": 6001,
+  "httpServer": "localhost",
+  "httpPort": 3001,
+  "initialPeers": [
+    "ws://testnode.izzz.io:6001",
+    "ws://91.121.214.27:6001"
+  ],
+  "blockHashFilter": {
+    "blockEndls": [
+      "f3c3",
+      "a001",
+      "1000",
+      "86d0",
+      "5027"
+    ]
+  },
+  "genesisTiemstamp": 1492004951001,
+  "enableMessaging": false,
+  "rpcPassword": "",
+  "blockAcceptCount": 0,
+  "maxPeers": 25,
+  "workDir": ".",
+  "walletFile": "wallet.json",
+  "walletsDB": "mem://wallets.json",
+  "blocksDB": "mem://blocks.json",
+  "appEntry": "./educert/index.js"
+}
