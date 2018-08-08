@@ -6,13 +6,23 @@
 
 const logger = new (require('../modules/logger'))("EDU");
 
-let DApp = require('../app/DApp');
-let NewKey = require('./modules/blocks/NewKey');
-let Document = require('./modules/blocks/Document');
+const DApp = require('../app/DApp');
+const NewKey = require('./modules/blocks/NewKey');
+const Document = require('./modules/blocks/Document');
 
+
+let that;
+
+/**
+ * EDU DApp
+ */
 class App extends DApp {
+
+    /**
+     * Initialize
+     */
     init() {
-        let that = this;
+        that = this;
         this.certificationKeys = {};
         this.certificationKeysArr = [];
 
@@ -154,7 +164,7 @@ class App extends DApp {
      * Инициализация завершена
      */
     ready() {
-        let that = this;
+
         logger.info('EDU ready');
 
         /*setTimeout(function () {
