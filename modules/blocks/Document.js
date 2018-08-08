@@ -6,22 +6,22 @@
 
 const Signable = require('../../../modules/blocks/signable');
 const CryptoJS = require("crypto-js");
-let type = 'NewKey';
+let type = 'Document';
 
 /**
- * NewKey block
+ * Document issue block
  * @type {Signable}
  */
-class NewKey extends Signable {
+class Document extends Signable {
     /**
-     * @param {String} owner
-     * @param {String} ownerPubKey
+     * @param {String} issuer
+     * @param {String} hash
      */
-    constructor(owner, ownerPubKey) {
+    constructor(issuer, hash) {
         super();
         this.type = type;
-        this.owner = owner;
-        this.publicKey = ownerPubKey;
+        this.issuer = issuer;
+        this.hash = hash;
         this.generateData();
     }
 
@@ -29,10 +29,10 @@ class NewKey extends Signable {
      * Создаёт строку данных для подписи
      */
     generateData() {
-        this.data = this.type + CryptoJS.SHA256(this.owner + this.publicKey);
+        this.data = this.type + CryptoJS.SHA256(this.issuer + this.hash);
     }
 
 
 }
 
-module.exports = NewKey;
+module.exports = Document;
