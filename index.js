@@ -4,7 +4,7 @@
  EDUCERT - blockchain certificates checker
  */
 
-const logger = new (require('../modules/logger'))("EDU");
+const logger = new (require('../modules/logger'))("iz3certs");
 
 const DApp = require('../app/DApp');
 const KeyValue = require('../modules/keyvalue');
@@ -251,20 +251,7 @@ class App extends DApp {
      * Инициализация завершена
      */
     ready() {
-
-        logger.info('EDU ready');
-
-        /*setTimeout(function () {
-            let document = new Document('Test Org', 'balabalabala');
-            document = that.getCurrentWallet().signBlock(document);
-            that.addSignedDocument(document, function (block) {
-                if(block) {
-                    logger.info('Document deploed');
-                } else {
-                    logger.error('Document deploing error')
-                }
-            })
-        }, 5000);*/
+        logger.info('Ready');
     }
 
     /**
