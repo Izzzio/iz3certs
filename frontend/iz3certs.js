@@ -211,7 +211,7 @@ function processInputMessage(message) {
                 showModalLoading();
             }, 3000);
             break;
-        case "CheckDocumentResult":
+        case "iz3certsCheckDocumentResult":
             showCheckDocumentResult(message.data);
             break;
         case "iz3certsGetKeyIssuerOk":
@@ -283,7 +283,7 @@ function showCheckDocumentResult(result) {
  * @return {boolean}
  */
 function checkByDCID(dcid) {
-    return candy.broadcastMessage({hash: dcid}, 'CheckDocument', candy.recieverAddress, candy.recieverAddress);
+    return candy.broadcastMessage({hash: dcid}, 'iz3certsCheckDocument', candy.recieverAddress, candy.recieverAddress);
 }
 
 /**

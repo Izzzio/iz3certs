@@ -102,9 +102,9 @@ class App extends DApp {
         /**
          * Проверка наличия документа в базе
          */
-        this.registerMessageHandler('CheckDocument', function (message) {
+        this.registerMessageHandler('iz3certsCheckDocument', function (message) {
             that.getDocumentInfo(message.data.hash, function (document) {
-                that.messaging.sendMessage(message._socket, document, 'CheckDocumentResult', message.recepient);
+                that.messaging.sendMessage(message._socket, document, 'iz3certsCheckDocumentResult', message.recepient);
             });
 
             return false;
