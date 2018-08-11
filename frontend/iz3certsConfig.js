@@ -1,0 +1,1 @@
+let nodes = ["ws://testnode.izzz.io:6001"];

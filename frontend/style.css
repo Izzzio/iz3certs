@@ -1,0 +1,38 @@
+.loader {
+    border: 0.7vw solid #f3f3f3;
+    border-top: 0.7vw solid #353535;
+    border-radius: 50%;
+    width: 5vw;
+    height: 5vw;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+.error {
+    color: #ff6666;
+}
+
+.ok {
+    color: #60c03b;
+}
+
+#resultStatus{
+    font-size: 1.5vh;
+    text-align: center;
+}
+
+#resultsExplain{
+    text-align: center;
+}

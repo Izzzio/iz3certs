@@ -7,6 +7,7 @@
 const logger = new (require('../modules/logger'))("EDU");
 
 const DApp = require('../app/DApp');
+const KeyValue = require('../modules/keyvalue');
 const NewKey = require('./modules/blocks/NewKey');
 const Document = require('./modules/blocks/Document');
 
@@ -25,6 +26,7 @@ class App extends DApp {
         that = this;
         this.certificationKeys = {};
         this.certificationKeysArr = [];
+        this.documents = new KeyValue('documents');
 
         require('./modules/splash')();
 
@@ -35,7 +37,7 @@ class App extends DApp {
         /**
          * Хендлер ключей сертефикации
          */
-        this.registerBlockHandler("NewKey", function (blockData, block, cb) {
+        this.blocks.handler.registerHandler("NewKey", function (blockData, block, cb) {
             try {
                 if(that.getCurrentWallet().verifyData(blockData.data, blockData.sign, blockData.pubkey) && that.getBlockHandler().isKeyFromKeyring(blockData.pubkey)) {
                     if(typeof that.certificationKeys[blockData.owner] !== 'undefined') {
@@ -59,6 +61,36 @@ class App extends DApp {
         });
 
         /**
+         * Хендлер документов
+         */
+        this.blocks.handler.registerHandler("Document", function (blockData, block, cb) {
+            /**
+             * @var {Document} blockData
+             */
+            try {
+                if(that.getCurrentWallet().verifyData(blockData.data, blockData.sign, blockData.pubkey) && that.isKeyFromCertificationKeys(blockData.pubkey)) {
+                    blockData.index = block.index;
+                    that.documents.put(blockData.hash, JSON.stringify(blockData), function () {
+                        return cb();
+                    });
+
+                } else {
+                    logger.error('Invalid certification key in block ' + block.index);
+                    return cb();
+                }
+            } catch (e) {
+                if(that.getConfig().program.verbose) {
+                    console.log(e);
+                } else {
+                    logger.error('Invalid certification key or other error in block ' + block.index);
+                    return cb();
+                }
+            }
+
+
+        });
+
+        /**
          * Перезагружаем цепочку блоков для получения инфомрации о всех ключах.
          */
         this.getBlockHandler().playBlockchain(0, function () {
@@ -67,18 +99,49 @@ class App extends DApp {
         });
 
 
-        /*  this.registerMessageHandler('WriteCandyData', function (message) {
-              console.log('New message: ');
-              console.log(message);
+        /**
+         * Проверка наличия документа в базе
+         */
+        this.registerMessageHandler('CheckDocument', function (message) {
+            that.getDocumentInfo(message.data.hash, function (document) {
+                that.messaging.sendMessage(message._socket, document, 'CheckDocumentResult', message.recepient);
+            });
 
-              let newBlock = new NewKey(JSON.stringify(message.data));
+            return false;
+        });
 
+        this.registerMessageHandler('iz3certsCheckConnection', function (message) {
+            that.messaging.sendMessage(message._socket, 'OK', 'iz3certsCheckConnectionOk', message.recepient);
+        });
 
+        /**
+         * Получение информации о владельце ключа
+         */
+        this.registerMessageHandler('iz3certsGetKeyIssuer', function (message) {
+            for (let a in that.certificationKeys) {
+                if(that.certificationKeys.hasOwnProperty(a)) {
+                    if(that.certificationKeys[a] === message.data.key) {
+                        that.messaging.sendMessage(message._socket, a, 'iz3certsGetKeyIssuerOk', message.recepient);
+                        return;
+                    }
+                }
+            }
+            that.messaging.sendMessage(message._socket, false, 'iz3certsGetKeyIssuerOk', message.recepient);
+        });
 
-              //that.blockchain.broadcastMessage('Hello', 'newData', message.recepient, message.recepient, 0);
+        this.registerMessageHandler('iz3certsAddNewDocument', function (message) {
+            let signedBlock = message.data.block;
+            that.addSignedDocument(signedBlock, function (document) {
+                if(!document) {
+                    document = false;
+                }
 
-              return false;
-          });*/
+                setTimeout(function () {
+                    that.messaging.sendMessage(message._socket, document, 'iz3certsAddNewDocumentOk', message.recepient);
+                }, 1000);
+
+            });
+        });
 
     }
 
@@ -124,31 +187,55 @@ class App extends DApp {
             }
         }
 
-        if(typeof this.certificationKeys[signedBlock.issuer] === 'undefined' || this.certificationKeys[signedBlock.issuer] !== signedBlock.pubkey) {
-            logger.error('Invalid issuer key');
-            cb();
-            return false;
-        }
+        that.getDocumentInfo(signedBlock.hash, function (document) {
+            if(document) {
+                logger.error('Document already deployed');
+                cb();
+                return false;
+            }
 
-        if(!this.getBlockHandler().isKeyFromKeyring(this.getCurrentWallet().keysPair.public)) {
-            logger.error('Current wallet does not represent in keyring');
-            cb();
-            return false;
-        }
+            if(typeof that.certificationKeys[signedBlock.issuer] === 'undefined' || that.certificationKeys[signedBlock.issuer] !== signedBlock.pubkey) {
+                logger.error('Invalid issuer key');
+                cb();
+                return false;
+            }
 
-        if(!this.isKeyFromCertificationKeys(signedBlock.pubkey)) {
-            logger.error('Provided key dos not represent in certification keys list');
-            cb();
-            return false;
-        }
+            if(!that.getBlockHandler().isKeyFromKeyring(that.getCurrentWallet().keysPair.public)) {
+                logger.error('Current wallet does not represent in keyring');
+                cb();
+                return false;
+            }
 
-        this.generateAndAddBlock(signedBlock, function blockGenerated(generatedBlock) {
-            logger.info('New certificate deployed');
-            cb(generatedBlock);
+            if(!that.isKeyFromCertificationKeys(signedBlock.pubkey)) {
+                logger.error('Provided key dos not represent in certification keys list');
+                cb();
+                return false;
+            }
+
+            that.generateAndAddBlock(signedBlock, function blockGenerated(generatedBlock) {
+                logger.info('New certificate deployed');
+                cb(generatedBlock);
+            });
         });
+
 
         return true;
 
+    }
+
+    /**
+     * Получение информации о документе по хешу
+     * @param hash
+     * @param cb
+     */
+    getDocumentInfo(hash, cb) {
+        this.documents.get(hash, function (err, document) {
+            if(!err) {
+                return cb(JSON.parse(document.toString()));
+            }
+
+            cb(false);
+        })
     }
 
     /**
@@ -178,6 +265,15 @@ class App extends DApp {
                 }
             })
         }, 5000);*/
+    }
+
+    /**
+     * Завершение работы
+     * @param cb
+     */
+    terminate(cb) {
+        logger.info('Terminate...');
+        this.documents.close(cb);
     }
 }
 
