@@ -13,6 +13,9 @@
 <div class="container">
 
     <h2>Проверка документа</h2>
+    <button id="doLoadKey" type="button" class="btn btn-primary hidden" onclick="$('#loadKey').modal();">
+        Войти в систему
+    </button>
     <br>
     <div id="checkForm">
         <div class="hideOnDataAdding">
@@ -55,15 +58,12 @@
             <div class="form-group">
                 <label for="r5">Дата выдачи или дата начала действия</label>
                 <input type="text" class="form-control" id="r5" readonly
-                       placeholder="Нажмите что-бы указать дату">
+                       placeholder="Нажмите для выбора даты">
             </div>
 
             <div class="text-muted">DCID: <span id="dcidShow"></span></div>
             <br>
             <button type="submit" class="btn btn-primary">Проверить</button>
-            <button id="doLoadKey" type="button" class="btn btn-primary hidden" onclick="$('#loadKey').modal();">
-                Войти в систему
-            </button>
             <button id="doAddDocument" type="button" class="btn btn-success hidden">Добавить документ в реестр</button>
         </form>
     </div>
