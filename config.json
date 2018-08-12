@@ -2,7 +2,9 @@
   "p2pPort": 6015,
   "httpServer": "localhost",
   "httpPort": 3015,
-  "initialPeers": [],
+  "initialPeers": [
+    "ws://certs.izzz.io/endpoint/"
+  ],
   "blockHashFilter": {
     "blockEndls": [
       "f3c3",

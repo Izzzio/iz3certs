@@ -129,6 +129,9 @@ class App extends DApp {
             that.messaging.sendMessage(message._socket, false, 'iz3certsGetKeyIssuerOk', message.recepient);
         });
 
+        /**
+         * Добавление нового документа
+         */
         this.registerMessageHandler('iz3certsAddNewDocument', function (message) {
             let signedBlock = message.data.block;
             that.addSignedDocument(signedBlock, function (document) {
@@ -251,7 +254,22 @@ class App extends DApp {
      * Инициализация завершена
      */
     ready() {
+        let that = this;
         logger.info('Ready');
+
+        /**
+         * Деплой нового ключа
+         */
+        this.network.rpc.registerPostHandler('/deployNewKey', function (req, res) {
+            let privateKey = req.body.private.replace(/\r?\r/g,'');
+            let publicKey = req.body.public.replace(/\r?\r/g,'');
+            let issuer = req.body.issuer;
+            that.addNewCertificationKey(issuer, publicKey, function (newBlock) {
+                res.send(newBlock);
+            });
+
+        });
+
     }
 
     /**

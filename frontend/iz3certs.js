@@ -40,6 +40,14 @@ function init() {
                 showModalLoading();
             }
             candy.broadcastMessage({}, 'iz3certsCheckConnection', candy.recieverAddress, candy.recieverAddress);
+
+        }, 2000);
+
+        setTimeout(function () {
+            if(window.location.hash.indexOf('dcid:')) {
+                let dcid = window.location.hash.split('dcid:')[1];
+                checkByDCID(dcid);
+            }
         }, 2000);
     };
 
@@ -67,6 +75,7 @@ function init() {
     $('#backButton').click(function () {
         $('#checkResult').hide();
         $('#checkForm').show();
+        window.location.hash = '';
     });
 
     /**
@@ -143,6 +152,7 @@ function init() {
     if(window.location.hash === '#doLoadKey') {
         $('#doLoadKey').show();
     }
+
 
 }
 
@@ -265,6 +275,8 @@ function showCheckDocumentResult(result) {
         $('#resultSign').val(result.sign);
         $('#resultIndex').val(result.index);
         $('#resultPubkey').val(result.pubkey);
+
+        window.location.hash = 'dcid:' + result.hash;
 
         let signCheck = new DigitalSignature();
         if(signCheck.verifyData(result.data, result.sign, result.pubkey)) {
