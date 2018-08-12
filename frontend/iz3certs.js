@@ -92,6 +92,7 @@ function init() {
         function showError() {
             alert('Некорректная пара ключей. Проверьте правильность ввода ключей.');
             $('#doAddDocument').hide();
+            $('.hideOnDataAdding').show();
         }
 
         try {
@@ -221,6 +222,7 @@ function processInputMessage(message) {
                 $('#issuer').val(message.data);
                 setTimeout(function () {
                     $('#loadKey').modal('hide');
+                    $('.hideOnDataAdding').hide();
                     $('#doLoadKey').hide();
                     $('#doAddDocument').show();
                 }, 1000);
