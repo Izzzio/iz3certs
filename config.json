@@ -13,7 +13,7 @@
     ]
   },
   "genesisTiemstamp": 1534080014000,
-  "generateEmptyBlockDelay": 86400,
+  "generateEmptyBlockDelay": 86400000,
   "enableMessaging": false,
   "rpcPassword": "",
   "blockAcceptCount": 0,
