@@ -42,6 +42,15 @@ function init() {
         }
     }
 
+    for (let i in DOCUMENT_PROGRAM) {
+        if(DOCUMENT_PROGRAM.hasOwnProperty(i)) {
+            $('#r9').append($('<option>', {
+                value: i,
+                text: DOCUMENT_PROGRAM[i]
+            }));
+        }
+    }
+
     candy = new Candy(nodes).start();
     candy.onready = function () {
         setInterval(function () {
@@ -206,6 +215,7 @@ function collectDocumentData(formSelector) {
     hash += form.find('#r6').val().trim();
     hash += form.find('#r7').val().trim();
     hash += form.find('#r8').val().trim();
+    hash += form.find('#r9').val().trim();
     hash = hash.toLowerCase(hash);
 
 
