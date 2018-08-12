@@ -1,1 +1,1 @@
-let nodes = ["ws://certs.izzz.io/endpoint/"];
+let nodes = ["wss://certs.izzz.io/endpoint/", "ws://certs.izzz.io/endpoint/"];
