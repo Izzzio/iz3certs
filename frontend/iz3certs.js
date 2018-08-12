@@ -204,6 +204,8 @@ function collectDocumentData(formSelector) {
     hash += form.find('#r4').val().trim();
     hash += form.find('#r5').val().trim();
     hash += form.find('#r6').val().trim();
+    hash += form.find('#r7').val().trim();
+    hash += form.find('#r8').val().trim();
     hash = hash.toLowerCase(hash);
 
 
