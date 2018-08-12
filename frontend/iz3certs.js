@@ -33,6 +33,15 @@ function init() {
         }
     }
 
+    for (let i in ISSUERS) {
+        if(ISSUERS.hasOwnProperty(i)) {
+            $('#r6').append($('<option>', {
+                value: i,
+                text: ISSUERS[i]
+            }));
+        }
+    }
+
     candy = new Candy(nodes).start();
     candy.onready = function () {
         setInterval(function () {
@@ -194,6 +203,7 @@ function collectDocumentData(formSelector) {
     hash += form.find('#r3').val().trim() + '|';
     hash += form.find('#r4').val().trim();
     hash += form.find('#r5').val().trim();
+    hash += form.find('#r6').val().trim();
     hash = hash.toLowerCase(hash);
 
 
