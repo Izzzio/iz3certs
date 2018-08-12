@@ -44,7 +44,7 @@ function init() {
         }, 2000);
 
         setTimeout(function () {
-            if(window.location.hash.indexOf('dcid:')) {
+            if(window.location.hash.indexOf('dcid:') !== -1) {
                 let dcid = window.location.hash.split('dcid:')[1];
                 checkByDCID(dcid);
             }
