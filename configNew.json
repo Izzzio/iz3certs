@@ -1,7 +1,7 @@
 {
-  "p2pPort": 6015,
+  "p2pPort": 6001,
   "httpServer": "localhost",
-  "httpPort": 3015,
+  "httpPort": 3001,
   "initialPeers": [],
   "blockHashFilter": {
     "blockEndls": [
@@ -12,6 +12,9 @@
       "5027"
     ]
   },
+  "validators": [
+    "lcpoa"
+  ],
   "genesisTiemstamp": 1534080014000,
   "enableMessaging": false,
   "rpcPassword": "",
@@ -21,5 +24,6 @@
   "walletFile": "wallet.json",
   "walletsDB": "mem://wallets.json",
   "blocksDB": "mem://blocks.json",
-  "appEntry": "./educert/index.js"
+  "keyringKeysCount": 20,
+  "initialEmission": 0
 }
