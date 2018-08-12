@@ -140,6 +140,10 @@ function init() {
         }
     };
 
+    if(window.location.hash === '#doLoadKey') {
+        $('#doLoadKey').show();
+    }
+
 }
 
 /**
