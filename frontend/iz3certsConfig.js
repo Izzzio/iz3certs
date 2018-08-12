@@ -1,1 +1,1 @@
-let nodes = ["ws://testnode.izzz.io:6001"];
+let nodes = ["ws://testnode.izzz.io:6001", "ws://localhost:6001"];
