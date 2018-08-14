@@ -53,18 +53,18 @@
             <div class="form-group">
                 <label for="r1">Фамилия</label>
                 <input type="text" class="form-control" id="r1"
-                       placeholder="Введите фамилию как на документе" required>
+                       placeholder="Введите фамилию как в документе" required>
             </div>
             <div class="form-group">
                 <label for="r2">Имя</label>
                 <input type="text" class="form-control" id="r2"
-                       placeholder="Введите имя как на документе" required>
+                       placeholder="Введите имя как в документе" required>
             </div>
             <div class="form-group">
                 <label for="r3">Отчество</label>
                 <input type="text" class="form-control" id="r3"
-                       placeholder="Введите отчество как на документе">
-                <small class="form-text text-muted">Заполняйте это поле только если отчество указано на документе.
+                       placeholder="Введите отчество как в документе">
+                <small class="form-text text-muted">Заполняйте это поле только если отчество указано в документе.
                 </small>
             </div>
             <div class="form-group">
@@ -78,7 +78,7 @@
             <div class="form-group">
                 <label for="r8">Номер</label>
                 <input type="text" class="form-control" id="r8"
-                       placeholder="Введите серию" pattern="[A-Za-zА-Яа-яЁё0-9]*">
+                       placeholder="Введите номер" pattern="[A-Za-zА-Яа-яЁё0-9]*">
                 <small class="form-text text-muted">Поле заполняется без пробелов и без символов, за исключением цифр и
                     букв. Заполняйте это поле только если номер указан на документе.
                 </small>
@@ -90,7 +90,7 @@
                 <small class="form-text text-muted">При наличии. Для очистки поля используйте кнопку "Очистить" внутри календаря</small>
             </div>
 
-            <div class="text-muted">DCID: <span id="dcidShow"></span></div>
+            <div class="text-muted dcid">DCID: <span id="dcidShow"></span></div>
             <br>
             <button type="submit" class="btn btn-primary">Проверить</button>
             <button id="doAddDocument" type="button" class="btn btn-success hidden">Добавить документ в реестр</button>

@@ -40,3 +40,11 @@
 .align-right{
     text-align: right;
 }
+
+@media all and (max-width: 765px) {
+    .dcid{
+        max-width: 100%;
+        overflow-x: scroll;
+    }
+}
+
