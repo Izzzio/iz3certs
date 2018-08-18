@@ -7,18 +7,20 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="datepicker/css/bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="http://akselerator.ru/style/style.css">
+
 </head>
 <body>
 
 <div class="container">
 
-    <h2>Проверка документа</h2>
+    <h2 id="checkDocTitle">Проверка документа</h2>
     <button id="doLoadKey" type="button" class="btn btn-primary hidden" onclick="$('#loadKey').modal();">
         Войти в систему
     </button>
     <br>
     <div id="checkForm">
-        <div class="hideOnDataAdding">
+        <div class="hideOnDataAdding" id="dcidCheckForm">
             <h3>Проверка по DCID</h3>
             <form id="dcidCheck" onsubmit="$('#doCheckDCID').click(); return false;">
                 <div class="form-group">
@@ -30,7 +32,7 @@
             </form>
         </div>
         <br>
-        <h3 class="hideOnDataAdding">Проверка по данным документа</h3>
+        <h3 class="hideOnDataAdding" id="checkByDocDataTitle">Проверка по данным документа</h3>
         <form id="documentCheck">
             <div class="form-group">
                 <label for="r4">Тип документа</label>
@@ -137,7 +139,7 @@
 <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="loadingModal">
     <div class="modal-dialog" role="document" style="text-align: center; max-width: 100%;">
         <div class="modal-body" style="text-align: center; padding-top: 20vh">
-            <h2 style="color: white">Подключение к приложению...</h2>
+            <h2 class="connectingText">Подключение к приложению...</h2>
             <div class="loader" style="margin-left: 50vw;"></div>
         </div>
     </div>

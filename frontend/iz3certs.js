@@ -243,6 +243,7 @@ function processInputMessage(message) {
     switch (message.id) {
         case "iz3certsCheckConnectionOk": //Проверка наличия подключения к необходимому приложению
             hideModalLoading();
+            checkSizes();
             clearTimeout(connectionTimeoutTimer);
             connectionTimeoutTimer = setTimeout(function () {
                 showModalLoading();
@@ -378,5 +379,33 @@ function createSignableDocumentBlock(hash, issuer) {
 
 }
 
+//Загрузка указанной конфигурации
+if(window.location.hash.indexOf('config:') !== -1) {
+    let config = window.location.hash.split('config:')[1];
+    let scriptTag = document.createElement('script');
+    scriptTag.src = '/configs/' + config + '.js';
+    scriptTag.onload = function () {
+        init();
+    };
+    document.getElementsByTagName("body")[0].appendChild(scriptTag);
+} else { //Или загрузка конфигов по умолчанию
+    init();
+}
 
-init();
+//External integration
+function checkSizes() {
+    try {
+        parent.postMessage({height: $('.container').height(), type: 'iz3frameResize'}, "*");
+    } catch (e) {
+
+    }
+}
+
+checkSizes();
+window.addEventListener('resize', function () {
+    checkSizes();
+});
+
+setInterval(function () {
+    checkSizes();
+}, 500);
