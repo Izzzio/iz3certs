@@ -1,0 +1,44 @@
+body {
+    background: #ffffff;
+}
+
+.btn {
+    background: #d2d2d2;
+    color: #111;
+    background-size: auto;
+    border-bottom-color: rgb(17, 17, 17);
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-image-outset: 0px;
+    border-image-repeat: stretch;
+    border-image-slice: 100%;
+    border-image-source: none;
+    border-image-width: 1;
+    border-left-color: rgb(17, 17, 17);
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-right-color: rgb(17, 17, 17);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-top-color: rgb(17, 17, 17);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-top-style: solid;
+    border-top-width: 1px;
+}
+
+.btn:hover {
+    background: white;
+    color: #111;
+    border-color: #000000;
+}
+
+.modal-backdrop {
+    background-color: #fffdfb;
+}
+
+.connectingText {
+    color: #222222;
+}

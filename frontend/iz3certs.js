@@ -409,3 +409,64 @@ window.addEventListener('resize', function () {
 setInterval(function () {
     checkSizes();
 }, 500);
+
+
+/**
+ * Batch add new documents
+ * @param docs
+ * @return {Promise<Array>}
+ */
+async function autoAdd(docs) {
+    let length = 0;
+    let dataArray = [];
+
+    function wait(timeout) {
+        return new Promise(resolve => {
+            setTimeout(resolve, timeout);
+        })
+    }
+
+    for (let key in docs) {
+        if(docs.hasOwnProperty(key)) {
+
+            if(!Array.isArray(docs[key])) {
+                throw 'Invalid input type';
+            }
+
+            if(length === 0) {
+                length = docs[key].length;
+                //continue;
+            }
+
+            if(docs[key].length !== length) {
+                throw 'Invalid data length for ' + key;
+            }
+
+            let index = 0;
+            for (let element of docs[key]) {
+                if(typeof dataArray[index] === 'undefined') {
+                    dataArray[index] = {};
+                }
+                dataArray[index][key] = element;
+                index++;
+            }
+
+
+        }
+    }
+
+    for (let doc of dataArray) {
+        for (let key in doc) {
+            if(doc.hasOwnProperty(key)) {
+                $('#'+key).val(doc[key]);
+            }
+        }
+
+        await wait(1000);
+        addNewDocument(getDCID('#documentCheck'));
+        await wait(200);
+        //break;
+    }
+
+    return dataArray;
+}
